@@ -1,6 +1,15 @@
 import User from '../models/User.js'
 import Movie from '../models/Movie.js'
 
+export async function getAllUsers(req, res, next) {
+    try {
+        const users = await User.find().select('-password')
+        res.json(users)
+    } catch (err) {
+        next(err)
+    }
+}
+
 export async function getProfile(req, res, next) {
     try {
         const user = await User.findOne({ username: req.params.username }).populate('favoriteMovies')
