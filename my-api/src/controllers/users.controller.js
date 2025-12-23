@@ -1,10 +1,18 @@
 import User from '../models/User.js'
 import Movie from '../models/Movie.js'
 
+function toSafeUser(user) {
+    const plain = user.toObject({ virtuals: false })
+    delete plain.password
+    if (Array.isArray(plain.favoriteMovies)) {
+        plain.favoriteMovies = plain.favoriteMovies.map((m) => m.toString())
+    }
+    return plain
+}
+
 export async function getAllUsers(req, res, next) {
     try {
-        const users = await User.find().select('-password')
-        res.json(users)
+        return res.status(403).json({ message: 'Forbidden' })
     } catch (err) {
         next(err)
     }
@@ -12,9 +20,9 @@ export async function getAllUsers(req, res, next) {
 
 export async function getProfile(req, res, next) {
     try {
-        const user = await User.findOne({ username: req.params.username }).populate('favoriteMovies')
+        const user = await User.findOne({ username: req.params.username })
         if (!user) return res.status(404).json({ message: 'User not found' })
-        res.json(user)
+        res.json(toSafeUser(user))
     } catch (err) {
         next(err)
     }
@@ -28,7 +36,7 @@ export async function updateProfile(req, res, next) {
         if (!user) return res.status(404).json({ message: 'User not found' })
         Object.assign(user, updates)
         await user.save()
-        res.json(user)
+        res.json(toSafeUser(user))
     } catch (err) {
         next(err)
     }
@@ -52,8 +60,8 @@ export async function addFavorite(req, res, next) {
             { username },
             { $addToSet: { favoriteMovies: movieId } },
             { new: true }
-        ).populate('favoriteMovies')
-        res.json(user)
+        )
+        res.json(toSafeUser(user))
     } catch (err) {
         next(err)
     }
@@ -66,8 +74,8 @@ export async function removeFavorite(req, res, next) {
             { username },
             { $pull: { favoriteMovies: movieId } },
             { new: true }
-        ).populate('favoriteMovies')
-        res.json(user)
+        )
+        res.json(toSafeUser(user))
     } catch (err) {
         next(err)
     }

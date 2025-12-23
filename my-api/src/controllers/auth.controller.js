@@ -5,6 +5,15 @@ function sign(user) {
     return jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' })
 }
 
+function toSafeUser(user) {
+    const plain = user.toObject({ virtuals: false })
+    delete plain.password
+    if (Array.isArray(plain.favoriteMovies)) {
+        plain.favoriteMovies = plain.favoriteMovies.map((m) => m.toString())
+    }
+    return plain
+}
+
 export async function login(req, res, next) {
     try {
         const { username, password } = req.body
@@ -13,7 +22,7 @@ export async function login(req, res, next) {
         const ok = await user.comparePassword(password)
         if (!ok) return res.status(401).json({ message: 'Invalid credentials' })
         const token = sign(user)
-        res.json({ token, user })
+        res.json({ token, user: toSafeUser(user) })
     } catch (err) {
         next(err)
     }
@@ -26,7 +35,7 @@ export async function signup(req, res, next) {
         if (exists) return res.status(409).json({ message: 'Username taken' })
         const user = await User.create({ username, password, email, birthday })
         const token = sign(user)
-        res.status(201).json({ token, user })
+        res.status(201).json({ token, user: toSafeUser(user) })
     } catch (err) {
         next(err)
     }
