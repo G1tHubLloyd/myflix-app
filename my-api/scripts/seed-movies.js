@@ -30,7 +30,7 @@ const movies = [
     {
         title: "The Dark Knight",
         description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests.",
-        imagePath: "https://m.media-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg",
+        imagePath: "https://m.media-amazon.com/images/I/81CLjrJfD2L._AC_SY679_.jpg",
         genre: {
             name: "Action",
             description: "Superhero action thriller"
@@ -45,7 +45,7 @@ const movies = [
     {
         title: "Avatar",
         description: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-        imagePath: "https://m.media-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg",
+        imagePath: "https://m.media-amazon.com/images/I/71dZUO6FHJL._AC_SY679_.jpg",
         genre: {
             name: "Sci-Fi",
             description: "Epic science fiction adventure"
@@ -75,7 +75,7 @@ const movies = [
     {
         title: "Gladiator",
         description: "A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.",
-        imagePath: "https://m.media-amazon.com/images/I/71c05lTE03L._AC_SY679_.jpg",
+        imagePath: "https://m.media-amazon.com/images/I/51p1J2wGPGL._AC_SY679_.jpg",
         genre: {
             name: "Action",
             description: "Historical action drama"
