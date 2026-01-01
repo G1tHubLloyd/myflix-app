@@ -12,7 +12,8 @@ function toSafeUser(user) {
 
 export async function getAllUsers(req, res, next) {
     try {
-        return res.status(403).json({ message: 'Forbidden' })
+        const users = await User.find()
+        res.json(users.map(toSafeUser))
     } catch (err) {
         next(err)
     }
