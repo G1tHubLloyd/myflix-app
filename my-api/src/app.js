@@ -15,7 +15,7 @@ app.use(express.json())
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }))
 
-app.use('/login', authRoutes)
+app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
 app.use('/movies', movieRoutes)
 
